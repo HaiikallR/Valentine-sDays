@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine For My Universe ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --rose-red: #ff2d55;
+            --neon-blue: #00f2fe;
+            --soft-pink: #ffb3c1;
+            --deep-maroon: #1a0005;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: radial-gradient(circle, var(--deep-maroon) 0%, var(--bg-dark) 100%);
+            color: white;
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            transition: transform 1s cubic-bezier(0.85, 0, 0.15, 1);
+            z-index: 10;
+        }
+
+        section {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* --- HEART BUTTON --- */
+        .heart-wrapper {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+            filter: drop-shadow(0 0 30px var(--rose-red));
+            animation: heartFloat 2.5s ease-in-out infinite;
+            margin-bottom: 40px;
+        }
+        .heart-wrapper svg { width: 100%; height: 100%; fill: var(--rose-red); }
+        @keyframes heartFloat { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-20px) scale(1.05); } }
+
+        /* --- PHOTO SLIDER PAGE 2 (LOOPING) --- */
+        .photo-slider { width: 100%; overflow: hidden; padding: 30px 0; white-space: nowrap; }
+        .slider-track { display: inline-block; animation: scroll 25s linear infinite; }
+        .polaroid { 
+            background: white; padding: 10px 10px 25px 10px; display: inline-block; 
+            margin: 0 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); 
+            transform: rotate(var(--r)); 
+        }
+        .polaroid img { width: 140px; height: 140px; object-fit: cover; }
+        .polaroid p { color: #333; font-size: 0.8rem; margin-top: 8px; font-family: 'Dancing Script'; font-weight: bold; }
+        
+        /* Animasi scroll untuk infinite looping */
+        @keyframes scroll { 
+            0% { transform: translateX(0); } 
+            100% { transform: translateX(-50%); } 
+        }
+
+        /* --- TYPOGRAPHY & BUTTONS --- */
+        .typewriter {
+            font-family: 'Dancing Script'; font-size: 2.2rem; color: var(--soft-pink);
+            text-shadow: 0 0 10px var(--rose-red);
+            padding: 0 10px;
+        }
+        .btn-glow {
+            margin-top: 25px; background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--neon-blue); color: var(--neon-blue);
+            padding: 12px 30px; border-radius: 50px; cursor: pointer;
+            text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;
+            transition: 0.3s; backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+        .btn-glow:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 30px var(--neon-blue); }
+
+        /* --- PAGE 3 CANVAS --- */
+        #flowerCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: crosshair; }
+        #info { position: absolute; top: 20px; color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; pointer-events: none; z-index: 10; padding: 0 20px; }
+
+        /* --- GIFT BOX PAGE 4 --- */
+        .gift-box {
+            background: rgba(255, 255, 255, 0.05); padding: 25px;
+            border-radius: 20px; border: 1px dashed var(--rose-red);
+            max-width: 90%; width: 380px;
+        }
+        .option {
+            background: rgba(255, 255, 255, 0.1); padding: 15px;
+            margin: 10px 0; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 0.9rem;
+        }
+        .option:hover { background: rgba(255, 45, 85, 0.2); }
+        .selected { background: var(--rose-red) !important; color: white; }
+        .back-link { margin-top: 30px; font-size: 0.8rem; color: #888; cursor: pointer; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <audio id="myAudio" loop>
+        <source src="Daniel Caesar - Best Part (Audio) ft. H.E.R..mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="particles-js"></div>
+
+    <div class="container" id="mainContainer">
+        <section id="p1">
+            <div class="heart-wrapper" onclick="movePage(1)">
+                <svg viewBox="0 0 32 32">
+                    <path d="M16,28.261c0,0-14-7.926-14-17.046c0-9.356,13.159-10.399,14-0.454c0.841-9.945,14-8.902,14,0.454 C30,20.335,16,28.261,16,28.261z"/>
+                </svg>
+            </div>
+            <h1 id="text1" class="typewriter"></h1>
+            <p style="font-size: 0.8rem; color: var(--soft-pink); margin-top: 10px; opacity: 0.7;">(Tap the heart to start ✨)</p>
+        </section>
+
+        <section id="p2">
+            <h2 style="font-family: 'Dancing Script'; font-size: 2.2rem; color: var(--rose-red); margin-bottom: 10px;">My Favorite View</h2>
+            <div class="photo-slider">
+                <div class="slider-track" id="sliderTrack">
+                    <div class="polaroid" style="--r:-3deg"><img src="1.jpeg"><p>Cantikku ❤️</p></div>
+                    <div class="polaroid" style="--r:2deg"><img src="2.jpeg"><p>Bayii Besarr ❤️</p></div>
+                    <div class="polaroid" style="--r:-2deg"><img src="3.jpeg"><p>Gemasss ❤️</p></div>
+                    <div class="polaroid" style="--r:4deg"><img src="4.jpeg"><p>With You ❤️</p></div>
+                    <div class="polaroid" style="--r:-3deg"><img src="5.jpeg"><p>Cantikku ❤️</p></div>
+                    <div class="polaroid" style="--r:2deg"><img src="6.jpeg"><p>Bahagiaku ❤️</p></div>
+                    <div class="polaroid" style="--r:-3deg"><img src="1.jpeg"><p>Cantikku ❤️</p></div>
+                    <div class="polaroid" style="--r:2deg"><img src="2.jpeg"><p>Bayii Besarr ❤️</p></div>
+                    <div class="polaroid" style="--r:-2deg"><img src="3.jpeg"><p>Gemasss ❤️</p></div>
+                    <div class="polaroid" style="--r:4deg"><img src="4.jpeg"><p>With You ❤️</p></div>
+                    <div class="polaroid" style="--r:-3deg"><img src="5.jpeg"><p>Cantikku ❤️</p></div>
+                    <div class="polaroid" style="--r:2deg"><img src="6.jpeg"><p>Bahagiaku ❤️</p></div>
+                </div>
+            </div>
+            <p id="text2" style="margin: 20px; color: #ffccd5; max-width: 500px; line-height: 1.6; min-height: 80px; font-size: 0.9rem;"></p>
+            <button class="btn-glow" onclick="movePage(2)">Tanam Bunga Untukmu 🌸</button>
+        </section>    
+
+        <section id="p3">
+            <canvas id="flowerCanvas"></canvas>
+            <div id="info">Klik untuk menanam bunga (Maksimal 10 bunga) 🌸</div>
+            <button id="nextToGift" class="btn-glow" style="position: absolute; bottom: 30px; display: none;" onclick="movePage(3)">Ambil Hadiahmu ❤️</button>
+        </section>
+
+        <section id="p4">
+            <div class="gift-box">
+                <h3 style="margin-bottom: 20px; color: var(--soft-pink);">Pilih Hadiah Valentine-mu:</h3>
+                <div class="option" onclick="selectGift(this, 'Parfum')">✨ Parfum Harum</div>
+                <div class="option" onclick="selectGift(this, 'Boneka')">🧸 Boneka Lucu</div>
+                <button id="waBtn" class="btn-glow" style="width: 100%; display: none;" onclick="sendWA()">Kirim ke WhatsApp 📲</button>
+            </div>
+            <p class="back-link" onclick="location.reload()">← Ulangi Dari Awal</p>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // --- PAGE TRANSITION ---
+        function movePage(index) {
+            const musik = document.getElementById("myAudio");
+            document.getElementById('mainContainer').style.transform = `translateY(-${index * 100}vh)`;
+            if(index === 1) {
+                 musik.play().catch(() => {});
+                 setTimeout(() => {
+                    typeWriter("Selamat Hari Kasih Sayanggg, Cantikk! Hari ini aku cuma mau bilang terima kasih atas kehadiran kamu di hidup aku. Aku bersyukur banget bisa kenal dan deket sama kamu. Aku ga nyangka Bootcamp itu bisa temuin aku dengan wanita Sukabumi yang perfectt. Aku bangga banget sama kamu. Kamu punya cara sendiri buat tetap hebat, dan aku selalu kagum dengan itu. Aku selalu berharap bisa terus di samping kamu baik saat senang maupun saat sedih. Lopyuu", "text2", 45);
+                 }, 800);
+            }
+        }
+
+        // --- TYPEWRITER ---
+        function typeWriter(text, id, speed = 70) {
+            let i = 0; const el = document.getElementById(id); el.innerHTML = "";
+            function run() {
+                if (i < text.length) {
+                    el.innerHTML += (text.charAt(i) === '<' && text.substr(i, 4) === '<br>') ? (i += 4, '<br>') : text.charAt(i++);
+                    setTimeout(run, speed);
+                }
+            }
+            run();
+        }
+        window.onload = () => { typeWriter("Selamat Hari Kasih Sayang!<br>My Favorite Person ❤️", "text1"); };
+
+        // --- PARTICLES BG ---
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 40 },
+                "color": { "value": ["#ff2d55", "#ffb3c1"] },
+                "shape": { "type": "heart" },
+                "opacity": { "value": 0.3 },
+                "size": { "value": 3 },
+                "move": { "enable": true, "speed": 1 }
+            }
+        });
+
+        // --- RESPONSIVE CANVAS FLOWERS (PAGE 3) ---
+        const canvas = document.getElementById('flowerCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Flower {
+            constructor(x, y) {
+                this.x = x; this.y = y;
+                this.targetStemHeight = Math.random() * (canvas.height * 0.2) + (canvas.height * 0.15);
+                this.currentStemHeight = 0;
+                this.stemGrowthSpeed = 2;
+                this.petalCount = Math.floor(Math.random() * 3) + 6;
+                const baseSize = canvas.width < 500 ? 15 : 25;
+                this.petalSize = Math.random() * 10 + baseSize;
+                this.currentPetalSize = 0;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.008;
+                this.swayOffset = Math.random() * Math.PI * 2;
+                this.swaySpeed = Math.random() * 0.015 + 0.01;
+                this.hue = Math.random() * 80 + 280;
+                this.growing = true;
+                this.growthStage = 0;
+                this.petalGrowthSpeed = 0.5;
+                this.glowIntensity = 0;
+                this.glowDirection = 1;
+            }
+            update() {
+                if (this.growing) {
+                    if (this.growthStage === 0) {
+                        this.currentStemHeight += this.stemGrowthSpeed;
+                        if (this.currentStemHeight >= this.targetStemHeight) this.growthStage = 1;
+                    } else if (this.growthStage === 1) {
+                        this.currentPetalSize += this.petalGrowthSpeed;
+                        this.glowIntensity += 0.02;
+                        if (this.currentPetalSize >= this.petalSize) {
+                            this.growing = false;
+                            this.glowIntensity = 1;
+                        }
+                    }
+                } else {
+                    this.glowIntensity += 0.01 * this.glowDirection;
+                    if (this.glowIntensity >= 1.2 || this.glowIntensity <= 0.8) this.glowDirection *= -1;
+                }
+                this.rotation += this.rotationSpeed;
+                this.swayOffset += this.swaySpeed;
+            }
+            draw(time) {
+                const sway = Math.sin(time * 0.001 + this.swayOffset) * (canvas.width * 0.02);
+                const stemGradient = ctx.createLinearGradient(this.x, canvas.height, this.x + sway, canvas.height - this.currentStemHeight);
+                stemGradient.addColorStop(0, '#1a4d0a'); stemGradient.addColorStop(1, '#3d6b20');
+                ctx.strokeStyle = stemGradient; ctx.lineWidth = canvas.width < 500 ? 3 : 4;
+                ctx.beginPath();
+                ctx.moveTo(this.x, canvas.height);
+                ctx.quadraticCurveTo(this.x + sway / 2, canvas.height - this.currentStemHeight / 2, this.x + sway, canvas.height - this.currentStemHeight);
+                ctx.stroke();
+
+                if (this.growthStage === 1) {
+                    ctx.save();
+                    ctx.translate(this.x + sway, canvas.height - this.currentStemHeight);
+                    ctx.shadowBlur = 15 * this.glowIntensity;
+                    ctx.shadowColor = `hsla(${this.hue}, 100%, 60%, 0.8)`;
+                    ctx.rotate(this.rotation);
+                    for (let i = 0; i < this.petalCount; i++) {
+                        ctx.rotate((Math.PI * 2) / this.petalCount);
+                        const grad = ctx.createRadialGradient(0, 0, 0, 0, -this.currentPetalSize/2, this.currentPetalSize);
+                        grad.addColorStop(0, `hsla(${this.hue+20}, 100%, 75%, 1)`);
+                        grad.addColorStop(1, `hsla(${this.hue-20}, 80%, 45%, 0.7)`);
+                        ctx.fillStyle = grad;
+                        ctx.beginPath();
+                        ctx.ellipse(0, -this.currentPetalSize * 0.6, this.currentPetalSize * 0.7, this.currentPetalSize, 0, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    ctx.restore();
+                }
+            }
+        }
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x; this.y = y;
+                this.vx = (Math.random() - 0.5) * 4;
+                this.vy = (Math.random() - 0.5) * 4;
+                this.life = 1; this.decay = Math.random() * 0.02 + 0.01;
+            }
+            update() { this.x += this.vx; this.y += this.vy; this.life -= this.decay; }
+            draw() {
+                ctx.save(); ctx.globalAlpha = this.life; ctx.fillStyle = '#ffb3c1';
+                ctx.beginPath(); ctx.arc(this.x, this.y, 2, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+            }
+        }
+
+        class Heart {
+            constructor(x, y) {
+                this.x = x; this.y = y;
+                this.size = Math.random() * 10 + 8;
+                this.vx = (Math.random() - 0.5) * 3;
+                this.vy = Math.random() * -3 - 2;
+                this.opacity = 1;
+            }
+            update() { this.x += this.vx; this.y += this.vy; this.opacity -= 0.01; }
+            draw() {
+                ctx.save(); ctx.globalAlpha = this.opacity; ctx.translate(this.x, this.y);
+                ctx.fillStyle = '#ff1493'; ctx.beginPath();
+                ctx.moveTo(0, 0); ctx.bezierCurveTo(-this.size/2, -this.size/2, -this.size, this.size/4, 0, this.size);
+                ctx.bezierCurveTo(this.size, this.size/4, this.size/2, -this.size/2, 0, 0); ctx.fill(); ctx.restore();
+            }
+        }
+
+        const flowers = [];
+        const particles = [];
+        const heartParticles = [];
+        const flowerPositions = [
+            {x: 0.1, y: 0.85}, {x: 0.25, y: 0.75}, {x: 0.18, y: 0.9},
+            {x: 0.5, y: 0.8}, {x: 0.4, y: 0.7}, {x: 0.8, y: 0.85},
+            {x: 0.7, y: 0.75}, {x: 0.9, y: 0.8}, {x: 0.3, y: 0.9}, {x: 0.6, y: 0.9}
+        ];
+
+        let showPhoto = false; let photoOpacity = 0; let photoScale = 0;
+        let photoImage = new Image(); photoImage.src = 'haik-removebg-preview.png';
+
+        canvas.addEventListener('click', (e) => {
+            if (flowers.length < 10) {
+                const pos = flowerPositions[flowers.length];
+                flowers.push(new Flower(pos.x * canvas.width, canvas.height));
+                for(let i=0; i<15; i++) particles.push(new Particle(e.clientX, e.clientY));
+                if (flowers.length === 10) document.getElementById('info').textContent = 'Taman penuh! Klik sekali lagi untuk surprise 💝';
+            } else if (!showPhoto) {
+                showPhoto = true;
+                document.getElementById('info').style.display = 'none';
+                document.getElementById('nextToGift').style.display = 'block';
+                for(let i=0; i<30; i++) heartParticles.push(new Heart(canvas.width/2, canvas.height/2));
+            }
+        });
+
+        function animate() {
+            const time = Date.now();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            flowers.forEach(f => { f.update(); f.draw(time); });
+            for(let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update(); particles[i].draw();
+                if(particles[i].life <= 0) particles.splice(i, 1);
+            }
+            for(let i = heartParticles.length - 1; i >= 0; i--) {
+                heartParticles[i].update(); heartParticles[i].draw();
+                if(heartParticles[i].opacity <= 0) heartParticles.splice(i, 1);
+            }
+
+            if (showPhoto) {
+                if (photoOpacity < 1) photoOpacity += 0.02;
+                if (photoScale < 1) photoScale += 0.02;
+
+                let pWidth = Math.min(canvas.width * 0.8, 320);
+                let pHeight = pWidth * 1.2;
+                let imgSize = pWidth * 0.85;
+
+                ctx.save();
+                ctx.globalAlpha = photoOpacity;
+                ctx.translate(canvas.width/2, canvas.height/2 - 20);
+                ctx.scale(photoScale, photoScale);
+                ctx.fillStyle = "white";
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = "rgba(0,0,0,0.5)";
+                ctx.fillRect(-pWidth/2, -pHeight/2, pWidth, pHeight);
+                ctx.drawImage(photoImage, -imgSize/2, -pHeight/2 + (pWidth*0.05), imgSize, imgSize);
+                ctx.fillStyle = "#ff2d55";
+                let fontSize = Math.max(pWidth * 0.07, 16);
+                ctx.font = `bold ${fontSize}px Dancing Script`;
+                ctx.textAlign = "center";
+                ctx.fillText("Bucket Online For You ❤️", 0, pHeight/2 - 20);
+                ctx.restore();
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // --- GIFT LOGIC ---
+        let choice = "";
+        function selectGift(el, val) {
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            el.classList.add('selected');
+            choice = val;
+            document.getElementById('waBtn').style.display = 'block';
+        }
+        function sendWA() {
+            const msg = encodeURIComponent(`Halooo ! Aku sudah memilih hadiah Valentine: ${choice}. ❤️`);
+            window.open(`https://wa.me/62895350579741?text=${msg}`);
+        }
+    </script>
+</body>
+</html>
